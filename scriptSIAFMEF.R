@@ -1,5 +1,5 @@
 #este script descarga los excel con información de los gobiernos locales del
-# siaf-mef (Consultar el Gasto Presupuestal [Actualización Mensual])
+# siaf-mef (Gasto Presupuestal [Actualización Mensual])
 
 #autor: aron santa cruz
 #contacto: aronsantacruz95@gmail.com
