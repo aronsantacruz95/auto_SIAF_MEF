@@ -1,12 +1,12 @@
-#este script descarga los excel con información de los gobiernos locales del
-# siaf-mef (Consultar el Gasto Presupuestal [Actualización Mensual])
+#este script descarga los excel con informaciÃ³n de los gobiernos locales del
+# siaf-mef (Consultar el Gasto Presupuestal [ActualizaciÃ³n Mensual])
 
 #autor: aron santa cruz
 #contacto: aronsantacruz95@gmail.com
-#versión 1.0
+#versiÃ³n 1.0
 #16-9-2020
 
-#cargamos las librerías
+#cargamos las librerÃ­as
 library("stringr")
 library("RSelenium")
 library("xml2")
@@ -18,19 +18,16 @@ library("httr")
 #| se puede modificar: |
 #+---------------------+
 
-#queremos información del 2020 hasta agosto
+#queremos informaciÃ³n del 2020 hasta agosto
 anio<-toString(2020)
-#dependiendo de qué info queremos habilitaremos solo una de las siguientes 3 líneas:
+#dependiendo de quÃ© info queremos habilitaremos solo una de las siguientes 3 lÃ­neas:
 quiero<-"ActProy"   # Actividades/Proyectos
-#quiero<-Actividad   # Sólo Actividades
-#quiero<-Proyecto    # Sólo Proyectos
+#quiero<-Actividad   # SÃ³lo Actividades
+#quiero<-Proyecto    # SÃ³lo Proyectos
 
 
 driver<-rsDriver(browser=c("chrome"), chromever="85.0.4183.83")
 remote_driver<-driver[["client"]]
-
-#abrimos el navegador (chrome)
-remote_driver$open()
 
 #armamos la url de consulta amigable
 web1<-"https://apps5.mineco.gob.pe/transparencia/mensual/default.aspx?y="
@@ -41,29 +38,29 @@ web
 #en el chrome abierto ingresaremos a la url armada arriba
 remote_driver$navigate(web)
 
-#ubicamos el frame donde están los botones
+#ubicamos el frame donde estÃ¡n los botones
 frame0<-remote_driver$findElement(value='//*[@id="frame0"]')
 
 #una vez ubicado el frame, lo "activaremos"
 remote_driver$switchToFrame(frame0)
 
-#clic al botón de nivel de gobierno
+#clic al botÃ³n de nivel de gobierno
 webElem<-remote_driver$findElement("name","ctl00$CPH1$BtnTipoGobierno")
 webElem$clickElement()
 
-#clic a la opción "Gobiernos locales"
+#clic a la opciÃ³n "Gobiernos locales"
 webElem<-remote_driver$findElement("id","ctl00_CPH1_RptData_ctl02_TD0")
 webElem$clickElement()
 
-#clic al botón de Gob.Loc./Mancom.
+#clic al botÃ³n de Gob.Loc./Mancom.
 webElem<-remote_driver$findElement("name","ctl00$CPH1$BtnSubTipoGobierno")
 webElem$clickElement()
 
-#clic a la opción "Municipalidades"
+#clic a la opciÃ³n "Municipalidades"
 webElem<-remote_driver$findElement("id","ctl00_CPH1_RptData_ctl01_TD0")
 webElem$clickElement()
 
-#clic al botón Departamento
+#clic al botÃ³n Departamento
 webElem<-remote_driver$findElement("name","ctl00$CPH1$BtnDepartamento")
 webElem$clickElement()
 
@@ -73,21 +70,21 @@ for(i in 1:25) {
   #count
   j<-str_pad(i,2,pad="0")
   print(j)
-  #clic a la opción "##: NOMDEP"
+  #clic a la opciÃ³n "##: NOMDEP"
   webElem<-remote_driver$findElement("id",paste0("ctl00_CPH1_RptData_ctl",j,"_TD0"))
   webElem$clickElement()
-  #clic al botón Municipalidad
+  #clic al botÃ³n Municipalidad
   webElem<-remote_driver$findElement("name","ctl00$CPH1$BtnMunicipalidad")
   webElem$clickElement()
-  #clic a la opción Descarga
+  #clic a la opciÃ³n Descarga
   webElem<-remote_driver$findElement("id","ctl00_CPH1_lbtnExportar")
   webElem$clickElement()
-  #clic al botón Regresar
+  #clic al botÃ³n Regresar
   webElem<-remote_driver$findElement("id","ctl00_CPH1_RptHistory_ctl04_TD0")
   webElem$clickElement()
 }
 
-#cerramos la sesión
+#cerramos la sesiÃ³n
 remote_driver$close()
 rm(driver)
 system("taskkill /im java.exe /f", intern=FALSE, ignore.stdout=FALSE)
